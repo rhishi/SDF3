@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="uri:sadf" xmlns="uri:sadf" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="sdf3">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="sadf" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:string" default="sadf"/>
+      <xs:attribute name="version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sadf">
+    <xs:complexType>
+      <xs:choice minOccurs="2" maxOccurs="2">
+        <xs:element ref="structure" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="properties" minOccurs="1" maxOccurs="1" />
+      </xs:choice>
+      <xs:attribute name="name" type="xs:string" default="SADF" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="structure">
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="kernel" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element ref="detector" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+        <xs:element ref="channel" minOccurs="0" maxOccurs="unbounded" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="kernel">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="detector">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="ChannelType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="data|control" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="channel">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="source" type="xs:string" use="required" />
+      <xs:attribute name="destination" type="xs:string" use="required" />
+      <xs:attribute name="type" type="ChannelType" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="properties">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="kernel_properties" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="detector_properties" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="channel_properties" minOccurs="0" maxOccurs="unbounded" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="kernel_properties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="scenario" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="control" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="consume" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="produce" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="profile" minOccurs="0" maxOccurs="unbounded" />
+              </xs:choice>
+              <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+      </xs:sequence>
+      <xs:attribute name="kernel" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="detector_properties">
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="scenario" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="control" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="subscenario" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="consume" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="produce" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="profile" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attribute name="name" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="markov_chain" minOccurs="1" maxOccurs="unbounded" />
+      </xs:choice>
+      <xs:attribute name="detector" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="control">
+    <xs:complexType>
+      <xs:attribute name="channel" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="consume">
+    <xs:complexType>
+      <xs:attribute name="channel" type="xs:string" use="required" />
+      <xs:attribute name="tokens" type="xs:positiveInteger" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="produce">
+    <xs:complexType>
+      <xs:attribute name="channel" type="xs:string" use="required" />
+      <xs:attribute name="tokens" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="value" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="profile">
+    <xs:complexType>
+      <xs:attribute name="execution_time" type="xs:decimal" default="0" />
+      <xs:attribute name="weight" type="xs:decimal" default="1" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="markov_chain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="state" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="scenario" type="xs:string" />
+      <xs:attribute name="initial_state" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="state">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="transition" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="subscenario" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="transition">
+    <xs:complexType>
+      <xs:attribute name="destination" type="xs:string" use="required" />
+      <xs:attribute name="weight" type="xs:decimal" default="1" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="channel_properties">
+    <xs:complexType>
+      <xs:attribute name="channel" type="xs:string" use="required" />
+      <xs:attribute name="buffer_size" type="xs:positiveInteger" />
+      <!-- default buffer_size is -1 (unbounded) -->
+      <xs:attribute name="number_of_initial_tokens" type="xs:positiveInteger" />
+      <!-- attribute number_of_initial_tokens is for data channels only -->
+      <!-- default number_of_initial_tokens is 0 -->
+      <xs:attribute name="initial_tokens" type="xs:string"/>
+      <!-- attribute initial_tokens is for control channels only -->
+      <!-- no initial control tokens are assumed by default -->
+      <!-- the string should consist of a comma-separated list of items in the following patterns 'Scenario' or 'Number * Scenario', where 'Number' is a positive integer and 'Scenario' is a scenario name. -->
+      <xs:attribute name="token_size" type="xs:positiveInteger" />
+      <!-- default token_size is 1 -->
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,50 @@
+#
+#   TU Eindhoven
+#   Eindhoven, The Netherlands
+#
+#   Author          :   Sander Stuijk (sander@ics.ele.tue.nl)
+#
+#   Date            :   March 29, 2002
+#   
+#   $Id: Makefile.example,v 1.1.1.1 2007/10/02 10:59:48 sander Exp $
+
+include $(PRIVATE_CM_ROOT)/sdf3/etc/Makefile.inc
+
+#-------------------------------------------------------------------------------
+# Variables
+#-------------------------------------------------------------------------------
+
+# Source files that need to be handled (e.g. foo.cc)
+SRCS = 
+
+# Name of the static library (e.g. libfoo.a)
+PROG_LIB = 
+
+# Name of the shared library (e.g. libfoo.so)
+PROG_SH_LIB = 
+
+# Name of the library that must be included in distribution (e.g. libfoo.so)
+PROG_REL_LIB =
+
+# Name of include files needed in distribution (e.g. foo.h)
+PROG_INC = 
+
+# Name of the binary (e.g. foo)
+PROG_BIN = 
+
+# Name of the binary to add to the distribution (e.g. foo)
+PROG_REL_BIN = 
+
+# Use user libraries
+#   USR_LIB_EXT    - Name of the library (e.g. $(LIB)base.$(LIBSO))
+USR_LIB_EXT = 
+
+#-------------------------------------------------------------------------------
+# Rules
+#-------------------------------------------------------------------------------
+
+include $(PRIVATE_CM_ROOT)/sdf3/etc/Makefile.rules
+
+#-------------------------------------------------------------------------------
+# Additional rules
+#-------------------------------------------------------------------------------

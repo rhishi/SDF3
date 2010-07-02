@@ -1,0 +1,122 @@
+#
+#   TU Eindhoven
+#   Eindhoven, The Netherlands
+#
+#   Author          :   Sander Stuijk (sander@ics.ele.tue.nl)
+#
+#   Date            :   March 29, 2002
+#   
+#   $Id: Makefile.rules,v 1.1.1.1 2007/10/02 10:59:48 sander Exp $
+
+PROG_INCS     = $(addprefix $(INC_DIR)/, $(PROG_INC))
+PROG_REL_LIBS = $(addprefix $(LIB_DIR_REL)/, $(PROG_REL_LIB))
+PROG_REL_BINS = $(addprefix $(BIN_DIR_REL)/, $(PROG_REL_BIN))
+
+EXAMPLES = $(addprefix $(EXA_DIR_REL)/, $(EXAMPLE))
+
+TARGETS     += $(DIRS)
+TARGETS		+= $(PROG_LIB) $(PROG_SH_LIB) $(PROG_BIN) $(PROG_INCS)
+TARGETS		+= $(EXAMPLES)
+TARGETS     += $(PROG_REL_LIBS) $(PROG_REL_BINS)
+
+# Add includes / libraries for libxml2
+INCLUDES += $(LIBXML2_INC)
+EXT_LIBS_DIRS += $(LIBXML2_LIB)
+EXT_LIBS += $(LIBXML2)
+
+# insert dependency info
+ifneq ("$(DEPS)","")
+	-include $(DEPS:%=$(DEP_DIR)/%)
+endif
+
+# External user libraries needed for linking. These libraries are located in
+# the LIB_DIR directory
+USR_LIBS = $(subst lib,,$(basename $(USR_LIB_EXT)))
+USR_LIBS_DIRS += $(LIB_DIR)
+USR_LIBS_DEP = $(addprefix $(LIB_DIR)/, $(USR_LIB_EXT))
+
+# Set flag to create position independent code when creating shared library
+ifneq "$(strip $(PROG_SH_LIB))" ""
+    CXXFLAGS += -fPIC
+endif
+
+#-------------------------------------------------------------------------------
+# Rules (standard)
+#-------------------------------------------------------------------------------
+
+all:		$(TARGETS)
+
+clean:
+		@echo Cleaning...
+		@$(RM) $(BLD_DIR)/work $(BLD_DIR)/release $(BLD_DIR)/doc $(CLEAN)
+
+#-------------------------------------------------------------------------------
+# Rules (build environment)
+#-------------------------------------------------------------------------------
+
+# Create required directories
+$(DIRS):	
+		@echo Creating directory $(subst $(BLD_DIR)/,,$@)
+		@mkdir $@
+
+#-------------------------------------------------------------------------------
+# Rules (Compile and link - work)
+#-------------------------------------------------------------------------------
+
+# Create object files
+$(COMPONENT_BASE)%.$(OBJ): 	%.$(CPP)
+		@echo Creating dependencies for $<
+		@echo -n $(COMPONENT_BASE) > $(DEP_DIR)/$(@:%.$(OBJ)=%.$(DEP))
+		@$(CXX) -MM $(addprefix -I,$(INCLUDES)) $< \
+		>> $(DEP_DIR)/$(@:%.$(OBJ)=%.$(DEP))
+		@echo Compiling $<
+		@$(CXX) $(CXXFLAGS) $(addprefix -I,$(INCLUDES)) \
+		-c $(@:$(COMPONENT_BASE)%.$(OBJ)=%.$(CPP)) -o $(OBJ_DIR)/$@
+
+# Link object files to binary (with default dynamic linking)
+$(PROG_BIN):	$(OBJS) $(USR_LIBS_DEP)
+		@echo Creating executable $@ 
+		@$(LD) $(LDFLAGS) $(addprefix $(OBJ_DIR)/,$(OBJS)) \
+		$(addprefix -L,$(EXT_LIBS_DIRS)) $(addprefix -l,$(EXT_LIBS)) \
+		$(addprefix -L,$(USR_LIBS_DIRS)) $(addprefix -l,$(USR_LIBS)) \
+		-Wl,-rpath $(LIB_DIR_REL) -o $(BIN_DIR)/$@
+
+# Link object files to static library
+$(PROG_LIB):	$(OBJS)
+		@echo Creating static library $@
+		@$(AR) $(ARFLAGS) $(LIB_DIR)/$@ $(addprefix $(OBJ_DIR)/,$(OBJS)) && \
+		$(RANLIB) $(LIB_DIR)/$@
+
+# Link object files to shared library
+$(PROG_SH_LIB):	$(OBJS)
+		@echo Creating shared library $@
+		@$(CXX) -shared $(LDFLAGS) -o $(LIB_DIR)/$@ \
+		-Wl,-export-all-symbols \
+		-Wl,-enable-auto-import \
+		-Wl,-whole-archive $(addprefix $(OBJ_DIR)/,$(OBJS)) \
+		-Wl,-no-whole-archive
+
+#-------------------------------------------------------------------------------
+# Rules (Add files to release)
+#-------------------------------------------------------------------------------
+
+# Add binary to distribution
+$(PROG_REL_BINS): $(PROG_BIN)
+		@echo Adding executable $(subst $(BIN_DIR_REL)/,,$@) to distribution
+		@cp $(subst $(BIN_DIR_REL)/,$(BIN_DIR)/,$@) $@
+        
+# Add library to distribution
+$(PROG_REL_LIBS): $(PROG_SH_LIB) $(PROG_LIB)
+		@echo Adding library $(subst $(LIB_DIR_REL)/,,$@) to distribution
+		@cp $(subst $(LIB_DIR_REL)/,$(LIB_DIR)/,$@) $@
+
+# Copy files from source directory to include directory in distribution
+$(PROG_INCS): $(PROG_INC)
+		@echo Adding include file $(subst $(INC_DIR)/,,$@) to distribution
+		@cp $(subst $(INC_DIR)/,,$@) $@
+
+# Copy directories from source dirctory to example directory in distribution
+$(EXAMPLES): $(EXAMPLE)
+		@echo Adding example $(subst $(EXA_DIR_REL)/,,$@) to distribution
+		@$(CP) -R $(subst $(EXA_DIR_REL)/,,$@) $@
+		@$(RM) $@/CVS

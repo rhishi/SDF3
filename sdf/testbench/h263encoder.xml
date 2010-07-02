@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sdf" version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.es.ele.tue.nl/sdf3/xsd/sdf3-sdf.xsd">
+  <applicationGraph name='h263encoder'>
+    <sdf name="h263encoder" type="H263encoder">
+        <actor name='motion_estimation' type='a'>
+            <port type='in' name='p0' rate='1'/>
+            <port type='out' name='p1' rate='99'/>
+        </actor>
+        <actor name='mb_encoding' type='a'>
+            <port type='in' name='p0' rate='1'/>
+            <port type='out' name='p1' rate='1'/>
+            <port type='out' name='p2' rate='1'/>
+        </actor>
+        <actor name='vlc' type='a'>
+            <port type='in' name='p0' rate='99'/>
+            <port type='in' name='p1' rate='1'/>
+            <port type='out' name='p2' rate='1'/>
+        </actor>
+        <actor name='mb_decoding' type='a'>
+            <port type='in' name='p0' rate='1'/>
+            <port type='out' name='p1' rate='1'/>
+        </actor>
+        <actor name='motion_compensation' type='a'>
+            <port type='in' name='p0' rate='99'/>
+            <port type='out' name='p1' rate='1'/>
+            <port type='in' name='p2' rate='1'/>
+            <port type='out' name='p3' rate='1'/>
+        </actor>
+        <channel name='mc2me' srcActor='motion_compensation' srcPort='p1' dstActor='motion_estimation' dstPort='p0' initialTokens='1'/>
+        <channel name='me2mbc' srcActor='motion_estimation' srcPort='p1' dstActor='mb_encoding' dstPort='p0'/>
+        <channel name='mbc2vlc' srcActor='mb_encoding' srcPort='p1' dstActor='vlc' dstPort='p0'/>
+        <channel name='mbc2mbd' srcActor='mb_encoding' srcPort='p2' dstActor='mb_decoding' dstPort='p0' />
+        <channel name='mbd2mc' srcActor='mb_decoding' srcPort='p1' dstActor='motion_compensation' dstPort='p0'/>
+        <channel name='vlc2vlc' srcActor='vlc' srcPort='p2' dstActor='vlc' dstPort='p1' initialTokens='1'/>
+        <channel name='mc2mc' srcActor='motion_compensation' srcPort='p3' dstActor='motion_compensation' dstPort='p2' initialTokens='1'/>
+    </sdf>
+    <sdfProperties>
+        <actorProperties actor='motion_estimation'>
+            <processor type='arm' default='true'>
+                <executionTime time='382419'/>
+                <memory>
+                    <stateSize max="316352"/> <!-- state: 12224 + 1 frame -->
+                </memory>
+            </processor>
+            <processor type='motion' default='true'>
+                <executionTime time='191074'/>
+                <memory>
+                    <stateSize max="316352"/>
+                </memory>
+            </processor>
+        </actorProperties>
+        <actorProperties actor='mb_encoding'>
+            <processor type='arm' default='true'>
+                <executionTime time='8409'/>
+                <memory>
+                    <stateSize max="17728"/>
+                </memory>
+            </processor>                  
+        </actorProperties>
+        <actorProperties actor='vlc'>
+            <processor type='arm' default='true'>
+                <executionTime time='26018'/>
+                <memory>
+                    <stateSize max="10848"/>
+                </memory>
+            </processor>             
+            <processor type='encoder' default='true'>
+                <executionTime time='13009'/>
+                <memory>
+                    <stateSize max="10848"/>
+                </memory>
+            </processor>             
+        </actorProperties>
+        <actorProperties actor='mb_decoding'>
+            <processor type='arm' default='true'>
+                <executionTime time='6264'/>
+                <memory>
+                    <stateSize max="6912"/>
+                </memory>
+            </processor>
+        </actorProperties>
+        <actorProperties actor='motion_compensation'>
+            <processor type='arm' default='true'>
+                <executionTime time='11356'/>
+                <memory>
+                    <stateSize max="22368"/>
+                </memory>
+            </processor>
+            <processor type='motion' default='true'>
+                <executionTime time='5678'/>
+                <memory>
+                    <stateSize max="22368"/>
+                </memory>
+            </processor>
+        </actorProperties>
+        <channelProperties channel="mc2me">
+            <tokenSize sz="304128"/>
+        </channelProperties>
+        <channelProperties channel="me2mbc">
+            <tokenSize sz="3072"/>
+        </channelProperties>
+        <channelProperties channel="mbc2vlc">
+            <tokenSize sz="3072"/>
+        </channelProperties>
+        <channelProperties channel="mbc2mbd">
+            <tokenSize sz="3072"/>
+        </channelProperties>
+        <channelProperties channel="mbd2mc">
+            <tokenSize sz="3072"/>
+        </channelProperties>
+        <channelProperties channel="vlc2vlc">
+            <tokenSize sz="8192"/>
+        </channelProperties>
+        <channelProperties channel="mc2mc">
+            <tokenSize sz="304128"/>
+        </channelProperties>
+      <graphProperties>
+        <timeConstraints>
+          <throughput>0.00000003</throughput> <!-- 15fps (iterations) with 500MHz clock -->
+        </timeConstraints>
+      </graphProperties>
+    </sdfProperties>
+</applicationGraph>
+</sdf3>

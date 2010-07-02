@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sdf" version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.es.ele.tue.nl/sdf3/xsd/sdf3-sdf.xsd">
+  <applicationGraph name='h263decoder'>
+    <sdf name="h263decoder" type="H263decoder">
+      <actor name="vld" type="A0">
+        <port name="p0" type="out" rate="594"/>
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+      </actor>
+      <actor name="iq" type="A1">
+        <port name="p0" type="in" rate="1"/>
+        <port name="p1" type="out" rate="1"/>
+        <port name="p2" type="in" rate="1"/>
+        <port name="p3" type="out" rate="1"/>
+      </actor>
+      <actor name="idct" type="A2">
+        <port name="p0" type="in" rate="1"/>
+        <port name="p1" type="out" rate="1"/>
+      </actor>
+      <actor name="mc" type="A3">
+        <port name="p0" type="in" rate="594"/>
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+      </actor>
+      <channel name="vld2iq" srcActor="vld" srcPort="p0" dstActor="iq" dstPort="p0"/>
+      <channel name="iq2idct" srcActor="iq" srcPort="p1" dstActor="idct" dstPort="p0"/>
+      <channel name="idct2mc" srcActor="idct" srcPort="p1" dstActor="mc" dstPort="p0"/>
+      <channel name="vld2vld" srcActor="vld" srcPort="p2" dstActor="vld" dstPort="p1" initialTokens='1'/>
+      <channel name="iq2iq" srcActor="iq" srcPort="p3" dstActor="iq" dstPort="p2" initialTokens='1'/>
+      <channel name="mc2mc" srcActor="mc" srcPort="p2" dstActor="mc" dstPort="p1" initialTokens='1'/>
+    </sdf>
+    <sdfProperties>
+      <actorProperties actor="vld">
+        <processor type="arm" default="true">
+          <executionTime time="26018"/>
+          <memory>
+            <stateSize max="10848"/>
+          </memory>
+        </processor>
+        <processor type="encoder" default="true">
+          <executionTime time="13009"/>
+          <memory>
+            <stateSize max="10848"/>
+          </memory>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="iq">
+        <processor type="arm" default="true">
+          <executionTime time="559"/>
+          <memory>
+            <stateSize max="400"/>
+          </memory>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="idct">
+        <processor type="arm" default="true">
+          <executionTime time="486"/>
+          <memory>
+            <stateSize max="400"/>
+          </memory>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="mc">
+        <processor type="arm" default="true">
+          <executionTime time="10958"/>
+          <memory>
+            <stateSize max="8000"/>
+          </memory>
+        </processor>
+        <processor type="motion" default="true">
+          <executionTime time="5479"/>
+          <memory>
+            <stateSize max="8000"/>
+          </memory>
+        </processor>
+      </actorProperties>
+      <channelProperties channel="vld2iq">
+        <tokenSize sz="512"/>
+      </channelProperties>
+      <channelProperties channel="iq2idct">
+        <tokenSize sz="512"/>
+      </channelProperties>
+      <channelProperties channel="idct2mc">
+        <tokenSize sz="512"/>
+      </channelProperties>
+      <channelProperties channel="vld2vld">
+        <tokenSize sz="8192"/>
+      </channelProperties>
+      <channelProperties channel="iq2iq">
+        <tokenSize sz="512"/>
+      </channelProperties>
+      <channelProperties channel="mc2mc">
+        <tokenSize sz="304128"/>
+      </channelProperties>
+      <graphProperties>
+        <timeConstraints>
+          <throughput>0.00000003</throughput> <!-- 15fps (iterations) with 500MHz clock -->
+        </timeConstraints>
+      </graphProperties>
+    </sdfProperties>
+  </applicationGraph>
+</sdf3>

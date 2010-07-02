@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="ce_converted_csdf">
+
+<structure>
+  <kernel name="absx"/>
+  <kernel name="avg"/>
+  <kernel name="log"/>
+  <kernel name="lvl"/>
+  <kernel name="norm"/>
+  <kernel name="cu"/>
+  <kernel name="fir"/>
+  <kernel name="absy"/>
+  <kernel name="cf"/>
+
+  <detector name="load"/>
+  
+  <channel name="load2absx" source="load" destination="absx" type="data"/>
+  <channel name="load2avg" source="load" destination="avg" type="data"/>
+  <channel name="load2norm" source="load" destination="norm" type="data"/>
+  <channel name="absx2avg" source="absx" destination="avg" type="data"/>
+  <channel name="avg2log" source="avg" destination="log" type="data"/>
+  <channel name="avg2lvl" source="avg" destination="lvl" type="data"/>
+  <channel name="avg2cu" source="avg" destination="cu" type="data"/>
+  <channel name="log2lvl" source="log" destination="lvl" type="data"/>
+  <channel name="lvl2norm" source="lvl" destination="norm" type="data"/>
+  <channel name="lvl2cu" source="lvl" destination="cu" type="data"/>
+  <channel name="norm2cu" source="norm" destination="cu" type="data"/>
+  <channel name="norm2fir" source="norm" destination="fir" type="data"/>
+  <channel name="cu2fir" source="cu" destination="fir" type="data"/>
+  <channel name="cu2avg" source="cu" destination="avg" type="data"/>
+  <channel name="fir2cf" source="fir" destination="cf" type="data"/>
+  <channel name="cf2cu" source="cf" destination="cu" type="data"/>
+  <channel name="cf2absy" source="cf" destination="absy" type="data"/>
+  <channel name="cf2load" source="cf" destination="load" type="data"/>
+  <channel name="absy2cu" source="absy" destination="cu" type="data"/>
+
+  <channel name="control_absx" source="load" destination="absx" type="control"/>
+  <channel name="control_avg" source="load" destination="avg" type="control"/>
+  <channel name="control_log" source="load" destination="log" type="control"/>
+  <channel name="control_lvl" source="load" destination="lvl" type="control"/>
+  <channel name="control_cu" source="load" destination="cu" type="control"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="absx">
+    <scenario name="Phase0">
+      <consume channel="load2absx" tokens="1"/>
+      <produce channel="absx2avg" tokens="1"/>
+      <profile execution_time="144"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="log">
+    <scenario name="Phase0">
+      <consume channel="avg2log" tokens="1"/>
+      <produce channel="log2lvl" tokens="1"/>
+      <profile execution_time="144"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="avg">
+    <scenario name="Phase0">
+      <consume channel="load2avg" tokens="1"/>
+      <consume channel="cu2avg" tokens="1"/>
+      <consume channel="absx2avg" tokens="1"/>
+      <produce channel="avg2lvl" tokens="1"/>
+      <produce channel="avg2cu" tokens="1"/>
+      <produce channel="avg2log" tokens="1"/>
+      <profile execution_time="704"/>
+    </scenario>
+    <scenario name="Phase1-7">
+      <consume channel="load2avg" tokens="1"/>
+      <consume channel="cu2avg" tokens="1"/>
+      <produce channel="avg2lvl" tokens="1"/>
+      <produce channel="avg2cu" tokens="1"/>
+      <profile execution_time="416"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="lvl">
+    <scenario name="Phase0">
+      <consume channel="avg2lvl" tokens="1"/>
+      <consume channel="log2lvl" tokens="1"/>
+      <produce channel="lvl2cu" tokens="1"/>
+      <produce channel="lvl2norm" tokens="1"/>
+      <profile execution_time="440"/>
+    </scenario>
+    <scenario name="Phase1-7">
+      <consume channel="avg2lvl" tokens="1"/>
+      <produce channel="lvl2cu" tokens="1"/>
+      <produce channel="lvl2norm" tokens="1"/>
+      <profile execution_time="24"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="cu">
+    <scenario name="Phase0">
+      <consume channel="avg2cu" tokens="1"/>
+      <consume channel="lvl2cu" tokens="1"/>
+      <consume channel="norm2cu" tokens="1"/>
+      <consume channel="cf2cu" tokens="1"/>
+      <consume channel="absy2cu" tokens="1"/>
+      <produce channel="cu2avg" tokens="1"/>
+      <produce channel="cu2fir" tokens="1"/>
+      <profile execution_time="4944"/>
+    </scenario>
+    <scenario name="Phase1">
+      <consume channel="avg2cu" tokens="1"/>
+      <consume channel="lvl2cu" tokens="1"/>
+      <consume channel="norm2cu" tokens="1"/>
+      <consume channel="cf2cu" tokens="1"/>
+      <consume channel="absy2cu" tokens="1"/>
+      <produce channel="cu2avg" tokens="1"/>
+      <produce channel="cu2fir" tokens="1"/>
+      <profile execution_time="7648"/>
+    </scenario>
+    <scenario name="Phase2-7">
+      <consume channel="avg2cu" tokens="1"/>
+      <consume channel="lvl2cu" tokens="1"/>
+      <consume channel="norm2cu" tokens="1"/>
+      <consume channel="cf2cu" tokens="1"/>
+      <consume channel="absy2cu" tokens="1"/>
+      <produce channel="cu2avg" tokens="1"/>
+      <produce channel="cu2fir" tokens="1"/>
+      <profile execution_time="4944"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="norm">
+    <scenario name="default">
+      <consume channel="lvl2norm" tokens="1"/>
+      <consume channel="load2norm" tokens="1"/>
+      <produce channel="norm2cu" tokens="1"/>
+      <produce channel="norm2fir" tokens="1"/>
+      <profile execution_time="328"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="fir">
+    <scenario name="default">
+      <consume channel="norm2fir" tokens="1"/>
+      <consume channel="cu2fir" tokens="1"/>
+      <produce channel="fir2cf" tokens="1"/>
+      <profile execution_time="144"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="cf">
+    <scenario name="default">
+      <consume channel="fir2cf" tokens="1"/>
+      <produce channel="cf2cu" tokens="1"/>
+      <produce channel="cf2absy" tokens="1"/>
+      <produce channel="cf2load" tokens="1"/>
+      <profile execution_time="328"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="absy">
+    <scenario name="default">
+      <consume channel="cf2absy" tokens="1"/>
+      <produce channel="absy2cu" tokens="1"/>
+      <profile execution_time="144"/>
+    </scenario>
+  </kernel_properties>
+
+  <detector_properties detector="load">
+    <subscenario name="Phase0">
+      <consume channel="cf2load" tokens="1"/>
+      <produce channel="load2absx" tokens="1"/>
+      <produce channel="load2norm" tokens="1"/>
+      <produce channel="load2avg" tokens="1"/>
+      <produce channel="control_absx" tokens="1"/>
+      <produce channel="control_avg" tokens="1"/>
+      <produce channel="control_log" tokens="1"/>
+      <produce channel="control_lvl" tokens="1"/>
+      <produce channel="control_cu" tokens="1"/>
+      <profile execution_time="224"/>
+    </subscenario>
+    <subscenario name="Phase1">
+      <consume channel="cf2load" tokens="1"/>
+      <produce channel="load2norm" tokens="1"/>
+      <produce channel="load2avg" tokens="1"/>
+      <produce channel="control_absx" tokens="1"/>
+      <produce channel="control_avg" tokens="1" value="Phase1-7"/>
+      <produce channel="control_log" tokens="1"/>
+      <produce channel="control_lvl" tokens="1" value="Phase1-7"/>
+      <produce channel="control_cu" tokens="1"/>
+      <profile execution_time="224"/>
+    </subscenario>
+    <subscenario name="Phase2-7">
+      <consume channel="cf2load" tokens="1"/>
+      <produce channel="load2norm" tokens="1"/>
+      <produce channel="load2avg" tokens="1"/>
+      <produce channel="control_absx" tokens="1"/>
+      <produce channel="control_avg" tokens="1" value="Phase1-7"/>
+      <produce channel="control_log" tokens="1"/>
+      <produce channel="control_lvl" tokens="1" value="Phase1-7"/>
+      <produce channel="control_cu" tokens="1"/>
+      <profile execution_time="224"/>
+    </subscenario>
+    <markov_chain initial_state="S7">    
+      <state name="S0" subscenario="Phase0">
+        <transition destination="S1"/>
+      </state>
+      <state name="S1" subscenario="Phase1">
+        <transition destination="S2"/>
+      </state>    
+      <state name="S2" subscenario="Phase2-7">
+        <transition destination="S3"/>
+      </state>    
+      <state name="S3" subscenario="Phase2-7">
+        <transition destination="S4"/>
+      </state>    
+      <state name="S4" subscenario="Phase2-7">
+        <transition destination="S5"/>
+      </state>
+      <state name="S5" subscenario="Phase2-7">
+        <transition destination="S6"/>
+      </state>       
+      <state name="S6" subscenario="Phase2-7">
+        <transition destination="S7"/>
+      </state>  
+      <state name="S7" subscenario="Phase2-7">
+        <transition destination="S0"/>
+      </state>       
+    </markov_chain>
+  </detector_properties>
+
+  <channel_properties channel="cu2avg" number_of_initial_tokens="1"/>
+  <channel_properties channel="cf2cu" number_of_initial_tokens="1"/>
+  <channel_properties channel="absy2cu" number_of_initial_tokens="1"/>
+  <channel_properties channel="cf2load" number_of_initial_tokens="2"/>
+
+</properties>
+
+</sadf>
+</sdf3>

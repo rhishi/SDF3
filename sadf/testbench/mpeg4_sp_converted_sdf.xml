@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="mpeg4_sp_converted_sdf">
+
+<structure>
+  <kernel name="VLD"/>
+  <kernel name="IDCT"/>
+  <kernel name="MC"/>
+  <kernel name="RC"/>
+  <kernel name="FD"/>
+
+  <channel name="VLD2IDCT" source="VLD" destination="IDCT" type="data"/>
+  <channel name="IDCT2RC" source="IDCT" destination="RC" type="data"/>
+  <channel name="VLD2MC" source="VLD" destination="MC" type="data"/>
+  <channel name="MC2RC" source="MC" destination="RC" type="data"/>
+  <channel name="RC2MC" source="RC" destination="MC" type="data"/>
+  <channel name="RC2FD" source="RC" destination="FD" type="data"/>
+  
+  <channel name="FD2VLD" source="FD" destination="VLD" type="data"/>
+  <channel name="FD2IDCT" source="FD" destination="IDCT" type="data"/>
+  <channel name="FD2MC" source="FD" destination="MC" type="data"/>
+  <channel name="FD2RC" source="FD" destination="RC" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="VLD">
+   <scenario name="P99">
+      <consume channel="FD2VLD" tokens="1"/>
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IDCT">
+    <scenario name="P99">
+      <consume channel="FD2IDCT" tokens="1"/>
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>           
+  </kernel_properties>
+
+  <kernel_properties kernel="MC">
+    <scenario name="P99">
+      <consume channel="FD2MC" tokens="1"/>
+      <consume channel="VLD2MC" tokens="99"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="346"/>
+    </scenario>                  
+  </kernel_properties>
+
+  <kernel_properties kernel="RC">
+    <scenario name="P99">
+      <consume channel="FD2RC" tokens="1"/>
+      <consume channel="IDCT2RC" tokens="99"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="350"/>
+    </scenario>             
+  </kernel_properties>
+
+  <kernel_properties kernel="FD">
+    <scenario name="P99">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="99"/>
+      <produce channel="FD2IDCT" tokens="99"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <channel_properties channel="RC2MC" number_of_initial_tokens="1"/>
+  <channel_properties channel="RC2FD" number_of_initial_tokens="3"/>
+
+</properties>
+
+</sadf>
+</sdf3>

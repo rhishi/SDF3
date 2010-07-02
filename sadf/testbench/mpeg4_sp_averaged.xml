@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="mpeg4_sp_averaged">
+
+<structure>
+  <kernel name="VLD"/>
+  <kernel name="IDCT"/>
+  <kernel name="MC"/>
+  <kernel name="RC"/>
+
+  <detector name="FD"/>
+
+  <channel name="VLD2IDCT" source="VLD" destination="IDCT" type="data"/>
+  <channel name="IDCT2RC" source="IDCT" destination="RC" type="data"/>
+  <channel name="VLD2MC" source="VLD" destination="MC" type="data"/>
+  <channel name="MC2RC" source="MC" destination="RC" type="data"/>
+  <channel name="RC2MC" source="RC" destination="MC" type="data"/>
+  <channel name="RC2FD" source="RC" destination="FD" type="data"/>
+  
+  <channel name="FD2VLD" source="FD" destination="VLD" type="control"/>
+  <channel name="FD2IDCT" source="FD" destination="IDCT" type="control"/>
+  <channel name="FD2MC" source="FD" destination="MC" type="control"/>
+  <channel name="FD2RC" source="FD" destination="RC" type="control"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="VLD">
+    <scenario name="I">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <profile execution_time="16"/>
+    </scenario>
+    <scenario name="P30">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P40">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P50">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P60">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P70">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P80">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+   </scenario>
+   <scenario name="P99">
+      <produce channel="VLD2IDCT" tokens="1"/>
+      <produce channel="VLD2MC" tokens="1"/>
+      <profile execution_time="16"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IDCT">
+    <scenario name="I">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P30">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P40">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P50">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P60">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P70">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>
+    <scenario name="P80">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>                  
+    <scenario name="P99">
+      <consume channel="VLD2IDCT" tokens="1"/>
+      <produce channel="IDCT2RC" tokens="1"/>
+      <profile execution_time="11"/>
+    </scenario>           
+  </kernel_properties>
+
+  <kernel_properties kernel="MC">
+    <scenario name="I">
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+    </scenario>
+    <scenario name="P0">
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+    </scenario>
+    <scenario name="P30">
+      <consume channel="VLD2MC" tokens="30"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="90"/>
+    </scenario>
+    <scenario name="P40">
+      <consume channel="VLD2MC" tokens="40"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="138"/>
+    </scenario>   
+    <scenario name="P50">
+      <consume channel="VLD2MC" tokens="50"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="170"/>
+    </scenario>      
+    <scenario name="P60">
+      <consume channel="VLD2MC" tokens="60"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="220"/>      
+    </scenario>      
+    <scenario name="P70">
+      <consume channel="VLD2MC" tokens="70"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="250"/>
+    </scenario>      
+    <scenario name="P80">
+      <consume channel="VLD2MC" tokens="80"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="295"/>
+    </scenario>      
+    <scenario name="P99">
+      <consume channel="VLD2MC" tokens="99"/>
+      <consume channel="RC2MC" tokens="1"/>
+      <produce channel="MC2RC" tokens="1"/>
+      <profile execution_time="346"/>
+    </scenario>                  
+  </kernel_properties>
+
+  <kernel_properties kernel="RC">
+    <scenario name="I">
+      <consume channel="IDCT2RC" tokens="99"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="350"/>
+    </scenario>
+    <scenario name="P0">
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+    </scenario>
+    <scenario name="P30">
+      <consume channel="IDCT2RC" tokens="30"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="185"/>
+    </scenario>
+    <scenario name="P40">
+      <consume channel="IDCT2RC" tokens="40"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="200"/>
+    </scenario>   
+    <scenario name="P50">
+      <consume channel="IDCT2RC" tokens="50"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="200"/>
+    </scenario>   
+    <scenario name="P60">
+      <consume channel="IDCT2RC" tokens="60"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="250"/>      
+    </scenario>      
+    <scenario name="P70">
+      <consume channel="IDCT2RC" tokens="70"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="285"/>
+    </scenario>          
+    <scenario name="P80">
+      <consume channel="IDCT2RC" tokens="80"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="285"/>
+    </scenario>          
+    <scenario name="P99">
+      <consume channel="IDCT2RC" tokens="99"/>
+      <consume channel="MC2RC" tokens="1"/>
+      <produce channel="RC2MC" tokens="1"/>
+      <produce channel="RC2FD" tokens="1"/>
+      <profile execution_time="285"/>
+    </scenario>             
+  </kernel_properties>
+
+  <detector_properties detector="FD">
+    <subscenario name="I">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="99"/>
+      <produce channel="FD2IDCT" tokens="99"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>
+    <subscenario name="P0">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="1"/>
+      <produce channel="FD2IDCT" tokens="1"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>
+    <subscenario name="P30">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="30"/>
+      <produce channel="FD2IDCT" tokens="30"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>
+    <subscenario name="P40">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="40"/>
+      <produce channel="FD2IDCT" tokens="40"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>    
+    <subscenario name="P50">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="50"/>
+      <produce channel="FD2IDCT" tokens="50"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>    
+    <subscenario name="P60">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="60"/>
+      <produce channel="FD2IDCT" tokens="60"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>    
+    <subscenario name="P70">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="70"/>
+      <produce channel="FD2IDCT" tokens="70"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>    
+    <subscenario name="P80">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="80"/>
+      <produce channel="FD2IDCT" tokens="80"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>    
+    <subscenario name="P99">
+      <consume channel="RC2FD" tokens="1"/>
+      <produce channel="FD2VLD" tokens="99"/>
+      <produce channel="FD2IDCT" tokens="99"/>
+      <produce channel="FD2MC" tokens="1"/>
+      <produce channel="FD2RC" tokens="1"/>
+    </subscenario>
+    <markov_chain initial_state="S1">    
+      <state name="S1" subscenario="P0">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>
+      <state name="S2" subscenario="I">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>    
+      <state name="S3" subscenario="P30">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>    
+      <state name="S4" subscenario="P40">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>    
+      <state name="S5" subscenario="P50">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>
+      <state name="S6" subscenario="P60">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>       
+      <state name="S7" subscenario="P70">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>  
+      <state name="S8" subscenario="P80">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>       
+      <state name="S9" subscenario="P99">
+        <transition destination="S1" weight="2"/>
+        <transition destination="S2" weight="12"/>
+        <transition destination="S3" weight="5"/>
+        <transition destination="S4" weight="25"/>
+        <transition destination="S5" weight="25"/>
+        <transition destination="S6" weight="9"/>
+        <transition destination="S7" weight="9"/>
+        <transition destination="S8" weight="9"/>
+        <transition destination="S9" weight="4"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+
+  <channel_properties channel="RC2MC" number_of_initial_tokens="1"/>
+  <channel_properties channel="RC2FD" number_of_initial_tokens="3"/>
+
+</properties>
+
+</sadf>
+</sdf3>

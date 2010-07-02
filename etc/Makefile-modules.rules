@@ -1,0 +1,73 @@
+#
+#   TU Eindhoven
+#   Eindhoven, The Netherlands
+#
+#   Author          :   Sander Stuijk (sander@ics.ele.tue.nl)
+#
+#   Date            :   March 29, 2002
+#   
+#   $Id: Makefile-modules.rules,v 1.1.1.1 2007/10/02 10:59:48 sander Exp $
+
+PROG_REL_LIBS = $(addprefix $(LIB_DIR_REL)/, $(PROG_REL_LIB))
+PROG_REL_BINS = $(addprefix $(BIN_DIR_REL)/, $(PROG_REL_BIN))
+
+# Create full name (inc. directory) for shared library target
+MODULE_LIB_A = $(addprefix $(LIB_DIR)/, $(addsuffix .$(LIBA), \
+                   $(basename $(MODULE_SH_LIB))))
+MODULE_LIB_SO = $(addprefix $(LIB_DIR)/, $(MODULE_SH_LIB))
+
+# Set flag to create position independent code when creating shared library
+ifneq "$(strip $(PROG_REL_SH_LIB))" ""
+    CXXFLAGS += -fPIC
+endif
+
+#-------------------------------------------------------------------------------
+# Rules (standard)
+#-------------------------------------------------------------------------------
+
+all:	$(COMPONENTS) $(MODULE_LIB_SO) $(TOOLS)
+    
+clean:	guard
+	@for COMPONENT in $(COMPONENTS); do\
+		echo "";\
+		echo "### Module "$(MODULE) "-" $(notdir $$COMPONENT); \
+		cd $$COMPONENT && $(MAKE) $(MAKEFLAGS) $@ && cd .. ; \
+	done
+	@for TOOL in $(PROG_REL_BINS); do\
+		echo "";\
+		echo "### Module "$(MODULE) "-" $(notdir $$TOOL); \
+		cd $$TOOL && $(MAKE) $(MAKEFLAGS) $@ && cd .. ; \
+	done
+
+# Check environment
+guard:
+	@if [ -z "$(PRIVATE_CM_ROOT)" ]; then \
+		echo "Error: variable 'PRIVATE_CM_ROOT' not set";\
+		exit 1; fi
+
+#-------------------------------------------------------------------------------
+# Rules (Shared library from components)
+#-------------------------------------------------------------------------------
+
+$(COMPONENTS): guard
+		@echo "";
+		@echo "### Module "$(MODULE) "-" $@;
+		@cd $@ && $(MAKE) $(MAKEFLAGS) all && cd .. ;
+    
+$(TOOLS): $(COMPONENTS) guard
+		@echo "";
+		@echo "### Module "$(MODULE) "-" $@;
+		@cd $@ && $(MAKE) $(MAKEFLAGS) all && cd .. ;
+
+# Link object files to shared library
+$(MODULE_LIB_SO): $(MODULE_LIB_A)
+		@echo ""
+		@echo "### Module "$(MODULE);
+		@echo Creating shared library $(notdir $@)
+		@$(CXX) -shared $(LDFLAGS) -o $@ \
+		-Wl,-export-all-symbols \
+		-Wl,-enable-auto-import \
+		-Wl,-whole-archive $^ \
+		-Wl,-no-whole-archive
+		@echo Adding library $(notdir $@) to distribution
+		@cp $@ $(subst $(LIB_DIR),$(LIB_DIR_REL), $@)

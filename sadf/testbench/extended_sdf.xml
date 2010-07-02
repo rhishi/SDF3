@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="extended_sdf">
+
+  <structure>
+  <kernel name="Input"/>
+  <kernel name="Process"/>
+  <kernel name="Output"/>
+  <channel name="I2P" source="Input" destination="Process" type="data"/>
+  <channel name="P2O" source="Process" destination="Output" type="data"/>
+  <channel name="O2I" source="Output" destination="Input" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="Input">
+    <scenario name="default">
+      <consume channel="O2I" tokens="50"/>
+      <produce channel="I2P" tokens="2"/>
+      <profile execution_time="17" weight="5"/>
+      <profile execution_time="13" weight="6"/>
+      <profile execution_time="23" weight="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Process">
+    <scenario name="default">
+      <consume channel="I2P" tokens="1"/>
+      <produce channel="P2O" tokens="25"/>
+      <profile execution_time="7" weight="3"/>
+      <profile execution_time="11" weight="7"/>
+      <profile execution_time="13" weight="2"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Output">
+    <scenario name="default">
+      <consume channel="P2O" tokens="1"/>
+      <produce channel="O2I" tokens="1"/>
+      <profile execution_time="5"/>
+    </scenario>
+  </kernel_properties>
+  
+  <channel_properties channel="O2I" number_of_initial_tokens="100"/>
+
+</properties>
+
+</sadf>
+</sdf3>

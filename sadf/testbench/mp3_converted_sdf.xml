@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="mp3_converted_sdf">
+
+<structure>
+  <kernel name="Huffman"/>
+  <kernel name="RequantizationLeft"/>
+  <kernel name="RequantizationRight"/>
+  <kernel name="ReorderLeft"/>
+  <kernel name="ReorderRight"/>
+  <kernel name="Stereo"/>
+  <kernel name="AliasReductionLeft"/>
+  <kernel name="AliasReductionRight"/>
+  <kernel name="IMDCTShortBlockLeft"/>
+  <kernel name="IMDCTLongBlockLeft"/>
+  <kernel name="IMDCTShortBlockRight"/>
+  <kernel name="IMDCTLongBlockRight"/>
+  <kernel name="FrequencyInversionShortBlockLeft"/>
+  <kernel name="FrequencyInversionLongBlockLeft"/>
+  <kernel name="FrequencyInversionShortBlockRight"/>
+  <kernel name="FrequencyInversionLongBlockRight"/>
+  <kernel name="SyncALeft"/>
+  <kernel name="SyncBLeft"/>
+  <kernel name="SyncARight"/>
+  <kernel name="SyncBRight"/>
+  <kernel name="SynthesisLeft"/>
+  <kernel name="SynthesisRight"/>
+  <kernel name="Write"/>
+  
+  <channel name="H2RQL" source="Huffman" destination="RequantizationLeft" type="data"/>
+  <channel name="H2RQR" source="Huffman" destination="RequantizationRight" type="data"/>
+  <channel name="RQL2S" source="RequantizationLeft" destination="Stereo" type="data"/>
+  <channel name="RQL2ROL" source="RequantizationLeft" destination="ReorderLeft" type="data"/>
+  <channel name="RQR2S" source="RequantizationRight" destination="Stereo" type="data"/>
+  <channel name="RQR2ROR" source="RequantizationRight" destination="ReorderRight" type="data"/>
+  <channel name="ROL2S" source="ReorderLeft" destination="Stereo" type="data"/>
+  <channel name="ROR2S" source="ReorderRight" destination="Stereo" type="data"/>
+  <channel name="S2ARL" source="Stereo" destination="AliasReductionLeft" type="data"/>
+  <channel name="S2IMDCTBSL" source="Stereo" destination="IMDCTShortBlockLeft" type="data"/>
+  <channel name="S2ARR" source="Stereo" destination="AliasReductionRight" type="data"/>
+  <channel name="S2IMDCTBSR" source="Stereo" destination="IMDCTShortBlockRight" type="data"/>
+  <channel name="ARL2IMDCTBLL" source="AliasReductionLeft" destination="IMDCTLongBlockLeft" type="data"/>
+  <channel name="ARR2IMDCTBLR" source="AliasReductionRight" destination="IMDCTLongBlockRight" type="data"/>
+  <channel name="IMDCTBLL2FIBLL" source="IMDCTLongBlockLeft" destination="FrequencyInversionLongBlockLeft" type="data"/>
+  <channel name="IMDCTBLR2FIBLR" source="IMDCTLongBlockRight" destination="FrequencyInversionLongBlockRight" type="data"/>
+  <channel name="IMDCTBSL2FIBSL" source="IMDCTShortBlockLeft" destination="FrequencyInversionShortBlockLeft" type="data"/>
+  <channel name="IMDCTBSR2FIBSR" source="IMDCTShortBlockRight" destination="FrequencyInversionShortBlockRight" type="data"/>
+  <channel name="IMDCTBLL2SAL" source="IMDCTLongBlockLeft" destination="SyncALeft" type="data"/>
+  <channel name="IMDCTBLR2SAR" source="IMDCTLongBlockRight" destination="SyncARight" type="data"/>
+  <channel name="SAL2IMDCTBSL" source="SyncALeft" destination="IMDCTShortBlockLeft" type="data"/>
+  <channel name="SAR2IMDCTBSR" source="SyncARight" destination="IMDCTShortBlockRight" type="data"/>
+  <channel name="IMDCTBSL2SBL" source="IMDCTShortBlockLeft" destination="SyncBLeft" type="data"/>
+  <channel name="IMDCTBSR2SBR" source="IMDCTShortBlockRight" destination="SyncBRight" type="data"/>
+  <channel name="SBL2IMDCTBLL" source="SyncBLeft" destination="IMDCTLongBlockLeft" type="data"/>
+  <channel name="SBR2IMDCTBLR" source="SyncBRight" destination="IMDCTLongBlockRight" type="data"/>
+  <channel name="FIBLL2SL" source="FrequencyInversionLongBlockLeft" destination="SynthesisLeft" type="data"/>
+  <channel name="FIBLR2SR" source="FrequencyInversionLongBlockRight" destination="SynthesisRight" type="data"/>
+  <channel name="FIBSL2SL" source="FrequencyInversionShortBlockLeft" destination="SynthesisLeft" type="data"/>
+  <channel name="FIBSR2SR" source="FrequencyInversionShortBlockRight" destination="SynthesisRight" type="data"/>
+  <channel name="SL2W" source="SynthesisLeft" destination="Write" type="data"/>
+  <channel name="SR2W" source="SynthesisRight" destination="Write" type="data"/>
+  <channel name="W2H" source="Write" destination="Huffman" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="Huffman">
+    <scenario name="Default">
+      <consume channel="W2H" tokens="1"/>
+      <produce channel="H2RQL" tokens="1152"/>
+      <produce channel="H2RQR" tokens="1152"/>
+      <profile execution_time="151977"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="RequantizationLeft">
+    <scenario name="M">
+      <consume channel="H2RQL" tokens="576"/>
+      <produce channel="RQL2S" tokens="36"/>
+      <produce channel="RQL2ROL" tokens="540"/>
+      <profile execution_time="42911"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="RequantizationRight">
+    <scenario name="M">
+      <consume channel="H2RQR" tokens="576"/>
+      <produce channel="RQR2S" tokens="36"/>
+      <produce channel="RQR2ROR" tokens="540"/>
+      <profile execution_time="42911"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="ReorderLeft">
+    <scenario name="M">
+      <consume channel="RQL2ROL" tokens="540"/>
+      <produce channel="ROL2S" tokens="540"/>
+      <profile execution_time="17568"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="ReorderRight">
+    <scenario name="M">
+      <consume channel="RQR2ROR" tokens="540"/>
+      <produce channel="ROR2S" tokens="540"/>
+      <profile execution_time="17568"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Stereo">
+    <scenario name="M">
+      <consume channel="RQL2S" tokens="36"/>
+      <consume channel="RQR2S" tokens="36"/>
+      <consume channel="ROL2S" tokens="540"/>
+      <consume channel="ROR2S" tokens="540"/>
+      <produce channel="S2IMDCTBSL" tokens="540"/>
+      <produce channel="S2IMDCTBSR" tokens="540"/>
+      <produce channel="S2ARL" tokens="36"/>
+      <produce channel="S2ARR" tokens="36"/>
+      <profile execution_time="53602"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="AliasReductionLeft">
+    <scenario name="BL">
+      <consume channel="S2ARL" tokens="18"/>
+      <produce channel="ARL2IMDCTBLL" tokens="18"/>
+      <profile execution_time="409"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="AliasReductionRight">
+    <scenario name="BL">
+      <consume channel="S2ARR" tokens="18"/>
+      <produce channel="ARR2IMDCTBLR" tokens="18"/>
+      <profile execution_time="409"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTLongBlockLeft">
+    <scenario name="BL">
+      <consume channel="ARL2IMDCTBLL" tokens="18"/>
+      <consume channel="SBL2IMDCTBLL" tokens="1"/>
+      <produce channel="IMDCTBLL2FIBLL" tokens="18"/>
+      <produce channel="IMDCTBLL2SAL" tokens="1"/>
+      <profile execution_time="7414"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTShortBlockLeft">
+    <scenario name="BS">
+      <consume channel="SAL2IMDCTBSL" tokens="1"/>
+      <consume channel="S2IMDCTBSL" tokens="6"/>
+      <produce channel="IMDCTBSL2FIBSL" tokens="6"/>
+      <produce channel="IMDCTBSL2SBL" tokens="1"/>
+      <profile execution_time="5561"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTLongBlockRight">
+    <scenario name="BL">
+      <consume channel="ARR2IMDCTBLR" tokens="18"/>
+      <consume channel="SBR2IMDCTBLR" tokens="1"/>
+      <produce channel="IMDCTBLR2FIBLR" tokens="18"/>
+      <produce channel="IMDCTBLR2SAR" tokens="1"/>
+      <profile execution_time="7414"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTShortBlockRight">
+    <scenario name="BS">
+      <consume channel="SAR2IMDCTBSR" tokens="1"/>
+      <consume channel="S2IMDCTBSR" tokens="6"/>
+      <produce channel="IMDCTBSR2FIBSR" tokens="6"/>
+      <produce channel="IMDCTBSR2SBR" tokens="1"/>
+      <profile execution_time="5561"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SyncALeft">
+    <scenario name="default">
+      <consume channel="IMDCTBLL2SAL" tokens="2"/>
+      <produce channel="SAL2IMDCTBSL" tokens="90"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SyncARight">
+    <scenario name="default">
+      <consume channel="IMDCTBLR2SAR" tokens="2"/>
+      <produce channel="SAR2IMDCTBSR" tokens="90"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SyncBLeft">
+    <scenario name="default">
+      <consume channel="IMDCTBSL2SBL" tokens="90"/>
+      <produce channel="SBL2IMDCTBLL" tokens="2"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SyncBRight">
+    <scenario name="default">
+      <consume channel="IMDCTBSR2SBR" tokens="90"/>
+      <produce channel="SBR2IMDCTBLR" tokens="2"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionLongBlockLeft">
+    <scenario name="BL">
+      <consume channel="IMDCTBLL2FIBLL" tokens="18"/>
+      <produce channel="FIBLL2SL" tokens="18"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionShortBlockLeft">
+    <scenario name="BS">
+      <consume channel="IMDCTBSL2FIBSL" tokens="6"/>
+      <produce channel="FIBSL2SL" tokens="6"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionLongBlockRight">
+    <scenario name="BL">
+      <consume channel="IMDCTBLR2FIBLR" tokens="18"/>
+      <produce channel="FIBLR2SR" tokens="18"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionShortBlockRight">
+    <scenario name="BS">
+      <consume channel="IMDCTBSR2FIBSR" tokens="6"/>
+      <produce channel="FIBSR2SR" tokens="6"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SynthesisLeft">
+    <scenario name="default">
+      <consume channel="FIBLL2SL" tokens="36"/>
+      <consume channel="FIBSL2SL" tokens="540"/>
+      <produce channel="SL2W" tokens="576"/>
+      <profile execution_time="1865001"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SynthesisRight">
+    <scenario name="default">
+      <consume channel="FIBLR2SR" tokens="36"/>
+      <consume channel="FIBSR2SR" tokens="540"/>
+      <produce channel="SR2W" tokens="576"/>
+      <profile execution_time="1865001"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Write">
+    <scenario name="default">
+      <consume channel="SL2W" tokens="1152"/>
+      <consume channel="SR2W" tokens="1152"/>
+      <produce channel="W2H" tokens="1"/>
+      <profile execution_time="42896"/>
+    </scenario>
+  </kernel_properties>
+
+  <channel_properties channel="W2H" number_of_initial_tokens="9"/>
+  <channel_properties channel="SBL2IMDCTBLL" number_of_initial_tokens="2"/>
+  <channel_properties channel="SBR2IMDCTBLR" number_of_initial_tokens="2"/>
+
+</properties>
+
+</sadf>
+</sdf3>

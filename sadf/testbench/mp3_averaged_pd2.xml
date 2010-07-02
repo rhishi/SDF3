@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="mp3_averaged_pd2">
+
+<structure>
+  <kernel name="Huffman"/>
+  <kernel name="RequantizationLeft"/>
+  <kernel name="RequantizationRight"/>
+  <kernel name="ReorderLeft"/>
+  <kernel name="ReorderRight"/>
+  <kernel name="Stereo"/>
+  <kernel name="AliasReductionLeft"/>
+  <kernel name="AliasReductionRight"/>
+  <kernel name="IMDCTLeft"/>
+  <kernel name="IMDCTRight"/>
+  <kernel name="FrequencyInversionLeft"/>
+  <kernel name="FrequencyInversionRight"/>
+  <kernel name="SynthesisLeft"/>
+  <kernel name="SynthesisRight"/>
+  <kernel name="Write"/>
+  
+  <detector name="FrameDetector"/>
+  <detector name="BlockDetectorLeft"/>
+  <detector name="BlockDetectorRight"/>
+  
+  <channel name="H2RQL" source="Huffman" destination="RequantizationLeft" type="data"/>
+  <channel name="H2RQR" source="Huffman" destination="RequantizationRight" type="data"/>
+  <channel name="RQL2S" source="RequantizationLeft" destination="Stereo" type="data"/>
+  <channel name="RQL2ROL" source="RequantizationLeft" destination="ReorderLeft" type="data"/>
+  <channel name="RQR2S" source="RequantizationRight" destination="Stereo" type="data"/>
+  <channel name="RQR2ROR" source="RequantizationRight" destination="ReorderRight" type="data"/>
+  <channel name="ROL2S" source="ReorderLeft" destination="Stereo" type="data"/>
+  <channel name="ROR2S" source="ReorderRight" destination="Stereo" type="data"/>
+  <channel name="S2ARL" source="Stereo" destination="AliasReductionLeft" type="data"/>
+  <channel name="S2IMDCTL" source="Stereo" destination="IMDCTLeft" type="data"/>
+  <channel name="S2ARR" source="Stereo" destination="AliasReductionRight" type="data"/>
+  <channel name="S2IMDCTR" source="Stereo" destination="IMDCTRight" type="data"/>
+  <channel name="ARL2IMDCTL" source="AliasReductionLeft" destination="IMDCTLeft" type="data"/>
+  <channel name="ARR2IMDCTR" source="AliasReductionRight" destination="IMDCTRight" type="data"/>
+  <channel name="IMDCTL2FIL" source="IMDCTLeft" destination="FrequencyInversionLeft" type="data"/>
+  <channel name="IMDCTR2FIR" source="IMDCTRight" destination="FrequencyInversionRight" type="data"/>
+  <channel name="FIL2SL" source="FrequencyInversionLeft" destination="SynthesisLeft" type="data"/>
+  <channel name="FIR2SR" source="FrequencyInversionRight" destination="SynthesisRight" type="data"/>
+  <channel name="SL2W" source="SynthesisLeft" destination="Write" type="data"/>
+  <channel name="SR2W" source="SynthesisRight" destination="Write" type="data"/>
+  <channel name="H2FD" source="Huffman" destination="FrameDetector" type="data"/>
+  <channel name="W2H" source="Write" destination="Huffman" type="data"/>
+
+  <channel name="FD2RQL" source="FrameDetector" destination="RequantizationLeft" type="control"/>
+  <channel name="FD2RQR" source="FrameDetector" destination="RequantizationRight" type="control"/>
+  <channel name="FD2ROL" source="FrameDetector" destination="ReorderLeft" type="control"/>
+  <channel name="FD2ROR" source="FrameDetector" destination="ReorderRight" type="control"/>
+  <channel name="FD2S" source="FrameDetector" destination="Stereo" type="control"/>
+  <channel name="FD2BDL" source="FrameDetector" destination="BlockDetectorLeft" type="control"/>
+  <channel name="FD2BDR" source="FrameDetector" destination="BlockDetectorRight" type="control"/>
+  <channel name="BDL2ARL" source="BlockDetectorLeft" destination="AliasReductionLeft" type="control"/>
+  <channel name="BDR2ARR" source="BlockDetectorRight" destination="AliasReductionRight" type="control"/>
+  <channel name="BDL2IMDCTL" source="BlockDetectorLeft" destination="IMDCTLeft" type="control"/>
+  <channel name="BDR2IMDCTR" source="BlockDetectorRight" destination="IMDCTRight" type="control"/>
+  <channel name="BDL2FIL" source="BlockDetectorLeft" destination="FrequencyInversionLeft" type="control"/>
+  <channel name="BDR2FIR" source="BlockDetectorRight" destination="FrequencyInversionRight" type="control"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="Huffman">
+    <scenario name="Default">
+      <consume channel="W2H" tokens="1"/>
+      <produce channel="H2RQL" tokens="1152"/>
+      <produce channel="H2RQR" tokens="1152"/>
+      <produce channel="H2FD" tokens="2"/>
+      <profile execution_time="151977"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="RequantizationLeft">
+    <scenario name="L">
+      <consume channel="H2RQL" tokens="576"/>
+      <produce channel="RQL2S" tokens="576"/>
+      <profile execution_time="56431"/>
+    </scenario>
+    <scenario name="S">
+      <consume channel="H2RQL" tokens="576"/>
+      <produce channel="RQL2ROL" tokens="576"/>
+      <profile execution_time="72695"/>
+    </scenario>
+    <scenario name="M">
+      <consume channel="H2RQL" tokens="576"/>
+      <produce channel="RQL2S" tokens="36"/>
+      <produce channel="RQL2ROL" tokens="540"/>
+      <profile execution_time="42911"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="RequantizationRight">
+    <scenario name="L">
+      <consume channel="H2RQR" tokens="576"/>
+      <produce channel="RQR2S" tokens="576"/>
+      <profile execution_time="56431"/>
+    </scenario>
+    <scenario name="S">
+      <consume channel="H2RQR" tokens="576"/>
+      <produce channel="RQR2ROR" tokens="576"/>
+      <profile execution_time="72695"/>
+    </scenario>
+    <scenario name="M">
+      <consume channel="H2RQR" tokens="576"/>
+      <produce channel="RQR2S" tokens="36"/>
+      <produce channel="RQR2ROR" tokens="540"/>
+      <profile execution_time="42911"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="ReorderLeft">
+    <scenario name="S">
+      <consume channel="RQL2ROL" tokens="576"/>
+      <produce channel="ROL2S" tokens="576"/>
+      <profile execution_time="34684"/>
+    </scenario>
+    <scenario name="M">
+      <consume channel="RQL2ROL" tokens="540"/>
+      <produce channel="ROL2S" tokens="540"/>
+      <profile execution_time="17568"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="ReorderRight">
+    <scenario name="S">
+      <consume channel="RQR2ROR" tokens="576"/>
+      <produce channel="ROR2S" tokens="576"/>
+      <profile execution_time="34684"/>
+    </scenario>
+    <scenario name="M">
+      <consume channel="RQR2ROR" tokens="540"/>
+      <produce channel="ROR2S" tokens="540"/>
+      <profile execution_time="17568"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Stereo">
+    <scenario name="LL">
+      <consume channel="RQL2S" tokens="576"/>
+      <consume channel="RQR2S" tokens="576"/>
+      <produce channel="S2ARL" tokens="576"/>
+      <produce channel="S2ARR" tokens="576"/>
+      <profile execution_time="39763"/>
+    </scenario>
+    <scenario name="SS">
+      <consume channel="ROL2S" tokens="576"/>
+      <consume channel="ROR2S" tokens="576"/>
+      <produce channel="S2IMDCTL" tokens="576"/>
+      <produce channel="S2IMDCTR" tokens="576"/>
+      <profile execution_time="38832"/>
+    </scenario>
+    <scenario name="LS">
+      <consume channel="RQL2S" tokens="576"/>
+      <produce channel="S2ARL" tokens="576"/>
+      <consume channel="ROR2S" tokens="576"/>
+      <produce channel="S2IMDCTR" tokens="576"/>
+      <profile execution_time="19"/>
+    </scenario>
+    <scenario name="SL">
+      <consume channel="ROL2S" tokens="576"/>
+      <produce channel="S2IMDCTL" tokens="576"/>
+      <consume channel="RQR2S" tokens="576"/>
+      <produce channel="S2ARR" tokens="576"/>
+      <profile execution_time="19"/>
+    </scenario>
+    <scenario name="M">
+      <consume channel="RQL2S" tokens="36"/>
+      <consume channel="RQR2S" tokens="36"/>
+      <consume channel="ROL2S" tokens="540"/>
+      <consume channel="ROR2S" tokens="540"/>
+      <produce channel="S2IMDCTL" tokens="540"/>
+      <produce channel="S2IMDCTR" tokens="540"/>
+      <produce channel="S2ARL" tokens="36"/>
+      <produce channel="S2ARR" tokens="36"/>
+      <profile execution_time="53602"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="AliasReductionLeft">
+    <scenario name="BL">
+      <consume channel="S2ARL" tokens="18"/>
+      <produce channel="ARL2IMDCTL" tokens="18"/>
+      <profile execution_time="409"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="AliasReductionRight">
+    <scenario name="BL">
+      <consume channel="S2ARR" tokens="18"/>
+      <produce channel="ARR2IMDCTR" tokens="18"/>
+      <profile execution_time="409"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTLeft">
+    <scenario name="BL">
+      <consume channel="ARL2IMDCTL" tokens="18"/>
+      <produce channel="IMDCTL2FIL" tokens="18"/>
+      <profile execution_time="7414"/>
+    </scenario>
+    <scenario name="BS">
+      <consume channel="S2IMDCTL" tokens="6"/>
+      <produce channel="IMDCTL2FIL" tokens="6"/>
+      <profile execution_time="5561"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="IMDCTRight">
+    <scenario name="BL">
+      <consume channel="ARR2IMDCTR" tokens="18"/>
+      <produce channel="IMDCTR2FIR" tokens="18"/>
+      <profile execution_time="7414"/>
+    </scenario>
+    <scenario name="BS">
+      <consume channel="S2IMDCTR" tokens="6"/>
+      <produce channel="IMDCTR2FIR" tokens="6"/>
+      <profile execution_time="5561"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionLeft">
+    <scenario name="BL">
+      <consume channel="IMDCTL2FIL" tokens="18"/>
+      <produce channel="FIL2SL" tokens="18"/>
+      <profile execution_time="4912"/>
+    </scenario>
+    <scenario name="BS">
+      <consume channel="IMDCTL2FIL" tokens="6"/>
+      <produce channel="FIL2SL" tokens="6"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="FrequencyInversionRight">
+    <scenario name="BL">
+      <consume channel="IMDCTR2FIR" tokens="18"/>
+      <produce channel="FIR2SR" tokens="18"/>
+      <profile execution_time="4912"/>
+    </scenario>
+    <scenario name="BS">
+      <consume channel="IMDCTR2FIR" tokens="6"/>
+      <produce channel="FIR2SR" tokens="6"/>
+      <profile execution_time="4912"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SynthesisLeft">
+    <scenario name="default">
+      <consume channel="FIL2SL" tokens="576"/>
+      <produce channel="SL2W" tokens="576"/>
+      <profile execution_time="1865001"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="SynthesisRight">
+    <scenario name="default">
+      <consume channel="FIR2SR" tokens="576"/>
+      <produce channel="SR2W" tokens="576"/>
+      <profile execution_time="1865001"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="Write">
+    <scenario name="default">
+      <consume channel="SL2W" tokens="1152"/>
+      <consume channel="SR2W" tokens="1152"/>
+      <produce channel="W2H" tokens="1"/>
+      <profile execution_time="42896"/>
+    </scenario>
+  </kernel_properties>
+
+  <detector_properties detector="FrameDetector">
+    <subscenario name="SS">
+      <consume channel="H2FD" tokens="1"/>
+      <produce channel="FD2RQL" tokens="1" value="S"/>
+      <produce channel="FD2RQR" tokens="1" value="S"/>
+      <produce channel="FD2ROL" tokens="1" value="S"/>
+      <produce channel="FD2ROR" tokens="1" value="S"/>
+      <produce channel="FD2S" tokens="1"/>
+      <produce channel="FD2BDL" tokens="1" value="S"/>
+      <produce channel="FD2BDR" tokens="1" value="S"/>
+    </subscenario>
+    <subscenario name="LL">
+      <consume channel="H2FD" tokens="1"/>
+      <produce channel="FD2RQL" tokens="1" value="L"/>
+      <produce channel="FD2RQR" tokens="1" value="L"/>
+      <produce channel="FD2ROL" tokens="1" value="L"/>
+      <produce channel="FD2ROR" tokens="1" value="L"/>
+      <produce channel="FD2S" tokens="1"/>
+      <produce channel="FD2BDL" tokens="1" value="L"/>
+      <produce channel="FD2BDR" tokens="1" value="L"/>
+    </subscenario>
+    <subscenario name="SL">
+      <consume channel="H2FD" tokens="1"/>
+      <produce channel="FD2RQL" tokens="1" value="S"/>
+      <produce channel="FD2RQR" tokens="1" value="L"/>
+      <produce channel="FD2ROL" tokens="1" value="S"/>
+      <produce channel="FD2ROR" tokens="1" value="L"/>
+      <produce channel="FD2S" tokens="1"/>
+      <produce channel="FD2BDL" tokens="1" value="S"/>
+      <produce channel="FD2BDR" tokens="1" value="L"/>
+    </subscenario>
+    <subscenario name="LS">
+      <consume channel="H2FD" tokens="1"/>
+      <produce channel="FD2RQL" tokens="1" value="L"/>
+      <produce channel="FD2RQR" tokens="1" value="S"/>
+      <produce channel="FD2ROL" tokens="1" value="L"/>
+      <produce channel="FD2ROR" tokens="1" value="S"/>
+      <produce channel="FD2S" tokens="1"/>
+      <produce channel="FD2BDL" tokens="1" value="L"/>
+      <produce channel="FD2BDR" tokens="1" value="S"/>
+    </subscenario>
+    <subscenario name="M">
+      <consume channel="H2FD" tokens="1"/>
+      <produce channel="FD2RQL" tokens="1"/>
+      <produce channel="FD2RQR" tokens="1"/>
+      <produce channel="FD2ROL" tokens="1"/>
+      <produce channel="FD2ROR" tokens="1"/>
+      <produce channel="FD2S" tokens="1"/>
+      <produce channel="FD2BDL" tokens="2"/>
+      <produce channel="FD2BDR" tokens="2"/>
+    </subscenario>
+    <markov_chain initial_state="LL">
+      <state name="LL" subscenario="LL">
+        <transition destination="LL" weight="0.9605"/>
+        <transition destination="SS" weight="0.0345"/>
+        <transition destination="LS" weight="0.0029"/>
+        <transition destination="SL" weight="0.0020"/>
+        <transition destination="M" weight="0.0001"/>
+      </state>
+      <state name="SS" subscenario="SS">
+        <transition destination="LL" weight="0.6267"/>
+        <transition destination="SS" weight="0.3482"/>
+        <transition destination="LS" weight="0.0125"/>
+        <transition destination="SL" weight="0.0125"/>
+        <transition destination="M" weight="0.0001"/>
+      </state>
+      <state name="LS" subscenario="LS">
+        <transition destination="LL" weight="0.7154"/>
+        <transition destination="SS" weight="0.1428"/>
+        <transition destination="LS" weight="0.1223"/>
+        <transition destination="SL" weight="0.0194"/>
+        <transition destination="M" weight="0.0001"/>
+      </state>
+      <state name="SL" subscenario="SL">
+        <transition destination="LL" weight="0.6873"/>
+        <transition destination="SS" weight="0.1422"/>
+        <transition destination="LS" weight="0.0282"/>
+        <transition destination="SL" weight="0.1422"/>
+        <transition destination="M" weight="0.0001"/>
+      </state>
+      <state name="M" subscenario="M">
+        <transition destination="LL" weight="0.9605"/>
+        <transition destination="SS" weight="0.0345"/>
+        <transition destination="LS" weight="0.0029"/>
+        <transition destination="SL" weight="0.0020"/>
+        <transition destination="M" weight="0.0001"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+
+  <detector_properties detector="BlockDetectorLeft">
+    <subscenario name="LBL">
+      <produce channel="BDL2ARL" tokens="32" value="BL"/>
+      <produce channel="BDL2IMDCTL" tokens="32" value="BL"/>
+      <produce channel="BDL2FIL" tokens="32" value="BL"/>
+    </subscenario>
+    <subscenario name="SBS">
+      <produce channel="BDL2ARL" tokens="96" value="BS"/>
+      <produce channel="BDL2IMDCTL" tokens="96" value="BS"/>
+      <produce channel="BDL2FIL" tokens="96" value="BS"/>
+    </subscenario>
+    <subscenario name="MBL">
+      <produce channel="BDL2ARL" tokens="2" value="BL"/>
+      <produce channel="BDL2IMDCTL" tokens="2" value="BL"/>
+      <produce channel="BDL2FIL" tokens="2" value="BL"/>
+    </subscenario>
+    <subscenario name="MBS">
+      <produce channel="BDL2ARL" tokens="90" value="BS"/>
+      <produce channel="BDL2IMDCTL" tokens="90" value="BS"/>
+      <produce channel="BDL2FIL" tokens="90" value="BS"/>
+    </subscenario>
+    <markov_chain scenario="S" initial_state="SBS">
+      <state name="SBS" subscenario="SBS">
+        <transition destination="SBS"/>
+      </state>
+    </markov_chain>
+    <markov_chain scenario="L" initial_state="LBL">
+      <state name="LBL" subscenario="LBL">
+        <transition destination="LBL"/>
+      </state>
+    </markov_chain>
+    <markov_chain scenario="M" initial_state="MBS">
+      <state name="MBS" subscenario="MBS">
+        <transition destination="MBL"/>
+      </state>
+      <state name="MBL" subscenario="MBL">
+        <transition destination="MBS"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+
+  <detector_properties detector="BlockDetectorRight">
+    <subscenario name="LBL">
+      <produce channel="BDR2ARR" tokens="32" value="BL"/>
+      <produce channel="BDR2IMDCTR" tokens="32" value="BL"/>
+      <produce channel="BDR2FIR" tokens="32" value="BL"/>
+    </subscenario>
+    <subscenario name="SBS">
+      <produce channel="BDR2ARR" tokens="96" value="BS"/>
+      <produce channel="BDR2IMDCTR" tokens="96" value="BS"/>
+      <produce channel="BDR2FIR" tokens="96" value="BS"/>
+    </subscenario>
+    <subscenario name="MBL">
+      <produce channel="BDR2ARR" tokens="2" value="BL"/>
+      <produce channel="BDR2IMDCTR" tokens="2" value="BL"/>
+      <produce channel="BDR2FIR" tokens="2" value="BL"/>
+    </subscenario>
+    <subscenario name="MBS">
+      <produce channel="BDR2ARR" tokens="90" value="BS"/>
+      <produce channel="BDR2IMDCTR" tokens="90" value="BS"/>
+      <produce channel="BDR2FIR" tokens="90" value="BS"/>
+    </subscenario>
+    <markov_chain scenario="S" initial_state="SBS">
+      <state name="SBS" subscenario="SBS">
+        <transition destination="SBS"/>
+      </state>
+    </markov_chain>
+    <markov_chain scenario="L" initial_state="LBL">
+      <state name="LBL" subscenario="LBL">
+        <transition destination="LBL"/>
+      </state>
+    </markov_chain>
+    <markov_chain scenario="M" initial_state="MBS">
+      <state name="MBS" subscenario="MBS">
+        <transition destination="MBL"/>
+      </state>
+      <state name="MBL" subscenario="MBL">
+        <transition destination="MBS"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+  
+  <channel_properties channel="W2H" number_of_initial_tokens="2"/>
+
+</properties>
+
+</sadf>
+</sdf3>

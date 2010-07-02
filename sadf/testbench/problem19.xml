@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="problem19">
+
+<structure>
+  <detector name="A"/>
+  <kernel name="B"/>
+  <kernel name="C"/>
+  <kernel name="D"/>
+  <channel name="A2B" source="A" destination="B" type="data"/>
+  <channel name="B2C" source="B" destination="C" type="data"/>
+  <channel name="C2D" source="C" destination="D" type="data"/>
+  <channel name="D2B" source="D" destination="B" type="data"/>
+  <channel name="AB" source="A" destination="B" type="control"/>
+  <channel name="AC" source="A" destination="C" type="control"/>
+  <channel name="AD" source="A" destination="D" type="control"/>
+</structure>
+
+<properties>
+  <detector_properties detector="A">
+    <subscenario name="s1">
+      <produce channel="A2B" tokens="2"/>
+      <produce channel="AB" tokens="1"/>
+      <produce channel="AC" tokens="3"/>
+      <produce channel="AD" tokens="2"/>
+      <profile execution_time="2"/>
+    </subscenario>
+    <subscenario name="s2">
+      <produce channel="A2B" tokens="2"/>
+      <produce channel="AB" tokens="2"/>
+      <produce channel="AC" tokens="3"/>
+      <produce channel="AD" tokens="4"/>
+      <profile execution_time="2"/>
+    </subscenario>
+    <subscenario name="s3">
+      <produce channel="A2B" tokens="2"/>
+      <produce channel="AB" tokens="2"/>
+      <produce channel="AC" tokens="4"/>
+      <produce channel="AD" tokens="4"/>
+      <profile execution_time="2"/>
+    </subscenario>
+        <markov_chain initial_state="s1">
+      <state name="s1" subscenario="s1">
+        <transition destination="s2"/>
+        <transition destination="s3" weight="4"/>
+      </state>
+      <state name="s2" subscenario="s2">
+        <transition destination="s3"/>
+      </state>
+      <state name="s3" subscenario="s3">
+        <transition destination="s1" weight="2"/>
+        <transition destination="s2" weight="5"/>
+        <transition destination="s3" weight="3"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+
+  <kernel_properties kernel="B">
+    <scenario name="s1">
+      <consume channel="A2B" tokens="2"/>
+      <consume channel="D2B" tokens="2"/>
+      <produce channel="B2C" tokens="3"/>
+      <profile execution_time="3" weight="2"/>
+      <profile execution_time="2.8" weight="2"/>
+    </scenario>
+    <scenario name="s2">
+      <consume channel="A2B" tokens="1"/>
+      <consume channel="D2B" tokens="2"/>
+      <produce channel="B2C" tokens="3"/>
+      <profile execution_time="4"/>
+    </scenario>
+    <scenario name="s3">
+      <consume channel="A2B" tokens="1"/>
+      <consume channel="D2B" tokens="2"/>
+      <produce channel="B2C" tokens="2"/>
+      <profile execution_time="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="C">
+    <scenario name="s1">
+      <consume channel="B2C" tokens="1"/>
+      <produce channel="C2D" tokens="2"/>
+      <profile execution_time="1"/>
+      <profile execution_time="1.2"/>
+    </scenario>
+    <scenario name="s2">
+      <consume channel="B2C" tokens="2"/>
+      <produce channel="C2D" tokens="4"/>
+      <profile execution_time="3"/>
+    </scenario>
+    <scenario name="s3">
+      <consume channel="B2C" tokens="1"/>
+      <produce channel="C2D" tokens="1"/>
+      <profile execution_time="5"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="D">
+    <scenario name="s1">
+      <consume channel="C2D" tokens="3"/>
+      <produce channel="D2B" tokens="1"/>
+      <profile execution_time="4"/>
+    </scenario>
+    <scenario name="s2">
+      <consume channel="C2D" tokens="3"/>
+      <produce channel="D2B" tokens="1"/>
+      <profile execution_time="1"/>
+    </scenario>
+    <scenario name="s3">
+      <consume channel="C2D" tokens="1"/>
+      <produce channel="D2B" tokens="1"/>
+      <profile execution_time="2.5"/>
+    </scenario>
+  </kernel_properties>
+  
+  <channel_properties channel="A2B" buffer_size="10"/>
+  <channel_properties channel="D2B" number_of_initial_tokens="3"/>
+
+</properties>
+
+</sadf>
+</sdf3>

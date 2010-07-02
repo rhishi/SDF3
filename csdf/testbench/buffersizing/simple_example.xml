@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="csdf" version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.es.ele.tue.nl/sdf3/xsd/sdf3-csdf.xsd">
+<applicationGraph name='example'>
+    <csdf name='example' type='example'>
+        <actor name='a' type='a'>
+            <port type='out' name='p0' rate='3,1'/>
+            <port type='in'  name='p2' rate='1,1'/>
+            <port type='out' name='p3' rate='1,1'/>
+        </actor>
+        <actor name='b' type='a'>
+            <port type='in' name='p0'  rate='4,2'/>
+            <port type='out' name='p1' rate='2,4'/>
+            <port type='in'  name='p2' rate='1,1'/>
+            <port type='out' name='p3' rate='1,1'/>
+        </actor>
+        <actor name='c' type='a'>
+            <port type='in' name='p0' rate='6,6'/>
+            <port type='in'  name='p2' rate='1,1'/>
+            <port type='out' name='p3' rate='1,1'/>
+        </actor>
+        <channel name='alpha' srcActor='a' srcPort='p0' dstActor='b' dstPort='p0'/>
+        <channel name='beta'  srcActor='b' srcPort='p1' dstActor='c' dstPort='p0'/>
+        <channel name='d1'    srcActor='a' srcPort='p3' dstActor='a' dstPort='p2' initialTokens='1'/>
+        <channel name='d2'    srcActor='b' srcPort='p3' dstActor='b' dstPort='p2' initialTokens='1'/>
+        <channel name='d3'    srcActor='c' srcPort='p3' dstActor='c' dstPort='p2' initialTokens='1'/>
+    </csdf>
+    <csdfProperties>
+        <actorProperties actor='a'>
+            <processor type='proc_0' default='true'>
+                <executionTime time='1,3'/>
+            </processor>
+        </actorProperties>
+        <actorProperties actor='b'>
+            <processor type='proc_0' default='true'>
+                <executionTime time='2,2'/>
+            </processor>
+        </actorProperties>
+        <actorProperties actor='c'>
+            <processor type='proc_0' default='true'>
+                <executionTime time='2,3'/>
+            </processor>                  
+        </actorProperties>
+    </csdfProperties>
+</applicationGraph>
+</sdf3>

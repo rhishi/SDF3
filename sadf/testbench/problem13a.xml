@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="problem13a">
+
+<structure>
+  <kernel name="A"/>
+  <kernel name="B"/>
+  <channel name="A2B" source="A" destination="B" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="A">
+    <scenario name="default">
+      <produce channel="A2B" tokens="3"/>
+      <profile execution_time="1" weight="2"/>
+      <profile execution_time="2" weight="8"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="B">
+    <scenario name="default">
+      <consume channel="A2B" tokens="2"/>
+      <profile execution_time="2" weight="3"/>
+      <profile execution_time="3" weight="7"/>
+    </scenario>
+  </kernel_properties>
+  
+  <channel_properties channel="A2B" buffer_size="6"/>
+
+</properties>
+
+</sadf>
+</sdf3>

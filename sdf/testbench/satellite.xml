@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sdf" version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.es.ele.tue.nl/sdf3/xsd/sdf3-sdf.xsd">
+  <applicationGraph name="satellite">
+    <sdf name="satellite" type="Satellite">
+      <actor name="a" type="A">
+        <port name="p1" type="out" rate="1"/>
+        <port name="_p2" type="out" rate="1"/>
+        <port name="_p3" type="in" rate="1"/>
+      </actor>
+      <actor name="b" type="B">
+        <port name="p1" type="in" rate="4"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="c" type="C">
+        <port name="p1" type="in" rate="11"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="p3" type="out" rate="10"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <actor name="d" type="D">
+        <port name="p1" type="out" rate="1"/>
+        <port name="_p2" type="out" rate="1"/>
+        <port name="_p3" type="in" rate="1"/>
+      </actor>
+      <actor name="e" type="E">
+        <port name="p1" type="in" rate="4"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="f" type="F">
+        <port name="p1" type="in" rate="11"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="p3" type="out" rate="10"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <actor name="g" type="G">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="h" type="H">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="11"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="i" type="I">
+        <port name="p1" type="in" rate="11"/>
+        <port name="p2" type="out" rate="10"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="j" type="J">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="p3" type="out" rate="1"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <actor name="k" type="K">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="l" type="L">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="11"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="m" type="M">
+        <port name="p1" type="in" rate="11"/>
+        <port name="p2" type="out" rate="10"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="n" type="N">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="p3" type="out" rate="1"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <actor name="p" type="P">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="in" rate="1"/>
+        <port name="p3" type="in" rate="1"/>
+        <port name="p4" type="in" rate="1"/>
+        <port name="p5" type="out" rate="1"/>
+        <port name="p6" type="out" rate="1"/>
+        <port name="_p7" type="out" rate="1"/>
+        <port name="_p8" type="in" rate="1"/>
+      </actor>
+      <actor name="q" type="Q">
+        <port name="p1" type="in" rate="240"/>
+        <port name="p2" type="out" rate="240"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="r" type="R">
+        <port name="p1" type="in" rate="240"/>
+        <port name="p2" type="out" rate="240"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="s" type="S">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="t" type="T">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="out" rate="1"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="u" type="U">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="in" rate="1"/>
+        <port name="p3" type="out" rate="1"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <actor name="v" type="V">
+        <port name="p1" type="in" rate="240"/>
+        <port name="p2" type="out" rate="240"/>
+        <port name="_p3" type="out" rate="1"/>
+        <port name="_p4" type="in" rate="1"/>
+      </actor>
+      <actor name="w" type="W">
+        <port name="p1" type="in" rate="1"/>
+        <port name="p2" type="in" rate="1"/>
+        <port name="p3" type="in" rate="1"/>
+        <port name="_p4" type="out" rate="1"/>
+        <port name="_p5" type="in" rate="1"/>
+      </actor>
+      <channel name="ch1" srcActor="a" srcPort="p1" dstActor="b" dstPort="p1"/>
+      <channel name="ch2" srcActor="b" srcPort="p2" dstActor="c" dstPort="p1"/>
+      <channel name="ch3" srcActor="c" srcPort="p2" dstActor="g" dstPort="p1"/>
+      <channel name="ch4" srcActor="c" srcPort="p3" dstActor="p" dstPort="p2"/>
+      <channel name="ch5" srcActor="d" srcPort="p1" dstActor="e" dstPort="p1"/>
+      <channel name="ch6" srcActor="e" srcPort="p2" dstActor="f" dstPort="p1"/>
+      <channel name="ch7" srcActor="f" srcPort="p2" dstActor="k" dstPort="p1"/>
+      <channel name="ch8" srcActor="f" srcPort="p3" dstActor="p" dstPort="p1"/>
+      <channel name="ch9" srcActor="g" srcPort="p2" dstActor="h" dstPort="p1"/>
+      <channel name="ch10" srcActor="h" srcPort="p2" dstActor="i" dstPort="p1"/>
+      <channel name="ch11" srcActor="i" srcPort="p2" dstActor="j" dstPort="p1"/>
+      <channel name="ch12" srcActor="k" srcPort="p2" dstActor="l" dstPort="p1"/>
+      <channel name="ch13" srcActor="l" srcPort="p2" dstActor="m" dstPort="p1"/>
+      <channel name="ch14" srcActor="m" srcPort="p2" dstActor="n" dstPort="p1"/>
+      <channel name="ch15" srcActor="p" srcPort="p5" dstActor="q" dstPort="p1"/>
+      <channel name="ch16" srcActor="p" srcPort="p6" dstActor="r" dstPort="p1"/>
+      <channel name="ch17" srcActor="q" srcPort="p2" dstActor="w" dstPort="p1"/>
+      <channel name="ch18" srcActor="r" srcPort="p2" dstActor="w" dstPort="p2"/>
+      <channel name="ch19" srcActor="n" srcPort="p2" dstActor="p" dstPort="p3"/>
+      <channel name="ch20" srcActor="n" srcPort="p3" dstActor="s" dstPort="p1"/>
+      <channel name="ch21" srcActor="s" srcPort="p2" dstActor="u" dstPort="p1"/>
+      <channel name="ch22" srcActor="j" srcPort="p2" dstActor="p" dstPort="p4"/>
+      <channel name="ch23" srcActor="j" srcPort="p3" dstActor="t" dstPort="p1"/>
+      <channel name="ch24" srcActor="t" srcPort="p2" dstActor="u" dstPort="p2"/>
+      <channel name="ch25" srcActor="u" srcPort="p3" dstActor="v" dstPort="p1"/>
+      <channel name="ch26" srcActor="v" srcPort="p2" dstActor="w" dstPort="p3"/>
+      <channel name="_ch27" srcActor="a" srcPort="_p2" dstActor="a" dstPort="_p3" initialTokens="1"/>
+      <channel name="_ch28" srcActor="b" srcPort="_p3" dstActor="b" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch29" srcActor="c" srcPort="_p4" dstActor="c" dstPort="_p5" initialTokens="1"/>
+      <channel name="_ch30" srcActor="d" srcPort="_p2" dstActor="d" dstPort="_p3" initialTokens="1"/>
+      <channel name="_ch31" srcActor="e" srcPort="_p3" dstActor="e" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch32" srcActor="f" srcPort="_p4" dstActor="f" dstPort="_p5" initialTokens="1"/>
+      <channel name="_ch33" srcActor="g" srcPort="_p3" dstActor="g" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch34" srcActor="h" srcPort="_p3" dstActor="h" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch35" srcActor="i" srcPort="_p3" dstActor="i" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch36" srcActor="j" srcPort="_p4" dstActor="j" dstPort="_p5" initialTokens="1"/>
+      <channel name="_ch37" srcActor="k" srcPort="_p3" dstActor="k" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch38" srcActor="l" srcPort="_p3" dstActor="l" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch39" srcActor="m" srcPort="_p3" dstActor="m" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch40" srcActor="n" srcPort="_p4" dstActor="n" dstPort="_p5" initialTokens="1"/>
+      <channel name="_ch41" srcActor="p" srcPort="_p7" dstActor="p" dstPort="_p8" initialTokens="1"/>
+      <channel name="_ch42" srcActor="q" srcPort="_p3" dstActor="q" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch43" srcActor="r" srcPort="_p3" dstActor="r" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch44" srcActor="s" srcPort="_p3" dstActor="s" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch45" srcActor="t" srcPort="_p3" dstActor="t" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch46" srcActor="u" srcPort="_p4" dstActor="u" dstPort="_p5" initialTokens="1"/>
+      <channel name="_ch47" srcActor="v" srcPort="_p3" dstActor="v" dstPort="_p4" initialTokens="1"/>
+      <channel name="_ch48" srcActor="w" srcPort="_p4" dstActor="w" dstPort="_p5" initialTokens="1"/>
+    </sdf>
+    <sdfProperties>
+      <actorProperties actor="a">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="b">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="c">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="d">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="e">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="f">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="g">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="h">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="i">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="j">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="k">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="l">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="m">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="n">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="p">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="q">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="r">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="s">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="t">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="u">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="v">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <actorProperties actor="w">
+        <processor type="p1" default="true">
+          <executionTime time="1"/>
+        </processor>
+      </actorProperties>
+      <channelProperties channel="ch1"/>
+      <channelProperties channel="ch2"/>
+      <channelProperties channel="ch3"/>
+      <channelProperties channel="ch4"/>
+      <channelProperties channel="ch5"/>
+      <channelProperties channel="ch6"/>
+      <channelProperties channel="ch7"/>
+      <channelProperties channel="ch8"/>
+      <channelProperties channel="ch9"/>
+      <channelProperties channel="ch10"/>
+      <channelProperties channel="ch11"/>
+      <channelProperties channel="ch12"/>
+      <channelProperties channel="ch13"/>
+      <channelProperties channel="ch14"/>
+      <channelProperties channel="ch15"/>
+      <channelProperties channel="ch16"/>
+      <channelProperties channel="ch17"/>
+      <channelProperties channel="ch18"/>
+      <channelProperties channel="ch19"/>
+      <channelProperties channel="ch20"/>
+      <channelProperties channel="ch21"/>
+      <channelProperties channel="ch22"/>
+      <channelProperties channel="ch23"/>
+      <channelProperties channel="ch24"/>
+      <channelProperties channel="ch25"/>
+      <channelProperties channel="ch26"/>
+      <channelProperties channel="_ch27"/>
+      <channelProperties channel="_ch28"/>
+      <channelProperties channel="_ch29"/>
+      <channelProperties channel="_ch30"/>
+      <channelProperties channel="_ch31"/>
+      <channelProperties channel="_ch32"/>
+      <channelProperties channel="_ch33"/>
+      <channelProperties channel="_ch34"/>
+      <channelProperties channel="_ch35"/>
+      <channelProperties channel="_ch36"/>
+      <channelProperties channel="_ch37"/>
+      <channelProperties channel="_ch38"/>
+      <channelProperties channel="_ch39"/>
+      <channelProperties channel="_ch40"/>
+      <channelProperties channel="_ch41"/>
+      <channelProperties channel="_ch42"/>
+      <channelProperties channel="_ch43"/>
+      <channelProperties channel="_ch44"/>
+      <channelProperties channel="_ch45"/>
+      <channelProperties channel="_ch46"/>
+      <channelProperties channel="_ch47"/>
+      <channelProperties channel="_ch48"/>
+      <graphProperties/>
+    </sdfProperties>
+  </applicationGraph>
+</sdf3>

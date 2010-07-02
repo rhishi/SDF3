@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="example3">
+
+<structure>
+  <kernel name="K"/>
+  <detector name="D1"/>
+  <detector name="D2"/>
+  <channel name="D1D2" source="D1" destination="D2" type="control"/>
+  <channel name="D2K" source="D2" destination="K" type="control"/>
+  <channel name="KD1" source="K" destination="D1" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="K">
+    <scenario name="S1">
+      <produce channel="KD1" tokens="1"/>
+      <profile execution_time="1"/>
+    </scenario>
+    <scenario name="S2">
+      <produce channel="KD1" tokens="1"/>
+      <profile execution_time="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <detector_properties detector="D1">
+    <subscenario name="S">
+      <consume channel="KD1" tokens="1"/>
+      <produce channel="D1D2" tokens="1"/>
+      <profile execution_time="1"/>
+    </subscenario>
+    <subscenario name="T">
+      <consume channel="KD1" tokens="1"/>
+      <produce channel="D1D2" tokens="1"/>
+      <profile execution_time="1"/>
+    </subscenario>
+    <markov_chain initial_state="S">
+      <state name="S" subscenario="S">
+        <transition destination="S"/>
+        <transition destination="T"/>
+      </state>
+      <state name="T" subscenario="T">
+        <transition destination="S"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+
+  <detector_properties detector="D2">
+    <subscenario name="S1">
+      <produce channel="D2K" tokens="1"/>
+      <profile execution_time="1"/>
+    </subscenario>
+    <subscenario name="S2">
+      <produce channel="D2K" tokens="1"/>
+      <profile execution_time="1"/>
+    </subscenario>
+    <markov_chain scenario="S" initial_state="S2">
+      <state name="S1" subscenario="S1">
+        <transition destination="S2"/>
+      </state>
+      <state name="S2" subscenario="S2">
+        <transition destination="S1"/>
+      </state>
+    </markov_chain>
+    <markov_chain scenario="T" initial_state="S1">
+      <state name="S1" subscenario="S1">
+        <transition destination="S2"/>
+      </state>
+      <state name="S2" subscenario="S2">
+        <transition destination="S1"/>
+      </state>
+    </markov_chain>
+  </detector_properties>
+  
+  <channel_properties channel="KD1" number_of_initial_tokens="3"/>
+
+</properties>
+
+</sadf>
+</sdf3>

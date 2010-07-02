@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sadf" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="uri:sadf" xsi:schemaLocation="uri:sadf http://www.es.ele.tue.nl/sadf/sdf3-sadf.xsd">
+<sadf name="problem18">
+
+<structure>
+  <kernel name="A"/>
+  <kernel name="B"/>
+  <kernel name="C"/>
+  <kernel name="D"/>
+  <kernel name="E"/>
+  <kernel name="F"/>
+  <kernel name="G"/>
+  <channel name="A2F" source="A" destination="F" type="data"/>
+  <channel name="A2C" source="A" destination="C" type="data"/>
+  <channel name="B2C" source="B" destination="C" type="data"/>
+  <channel name="E2C" source="E" destination="C" type="data"/>
+  <channel name="C2D" source="C" destination="D" type="data"/>
+  <channel name="D2E" source="D" destination="E" type="data"/>
+  <channel name="D2F" source="D" destination="F" type="data"/>
+  <channel name="D2G" source="D" destination="G" type="data"/>
+</structure>
+
+<properties>
+  <kernel_properties kernel="A">
+    <scenario name="default">
+      <produce channel="A2F" tokens="1"/>
+      <produce channel="A2C" tokens="1"/>
+      <profile execution_time="2.5" weight="2"/>
+      <profile execution_time="1.5" weight="8"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="B">
+    <scenario name="default">
+      <produce channel="B2C" tokens="2"/>
+      <profile execution_time="2"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="C">
+    <scenario name="default">
+      <consume channel="A2C" tokens="2"/>
+      <consume channel="E2C" tokens="1"/>
+      <consume channel="B2C" tokens="3"/>
+      <produce channel="C2D" tokens="2"/>
+      <profile execution_time="1" weight="5"/>
+      <profile execution_time="1.2" weight="3"/>
+      <profile execution_time="1.5" weight="2"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="D">
+    <scenario name="default">
+      <consume channel="C2D" tokens="1"/>
+      <produce channel="D2E" tokens="1"/>
+      <produce channel="D2F" tokens="2"/>
+      <produce channel="D2G" tokens="1"/>
+      <profile execution_time="2" weight="9"/>
+      <profile execution_time="3"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="E">
+    <scenario name="default">
+      <consume channel="D2E" tokens="2"/>
+      <produce channel="E2C" tokens="1"/>
+      <profile execution_time="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="F">
+    <scenario name="default">
+      <consume channel="A2F" tokens="2"/>
+      <consume channel="D2F" tokens="4"/>
+      <profile execution_time="1"/>
+    </scenario>
+  </kernel_properties>
+
+  <kernel_properties kernel="G">
+    <scenario name="default">
+      <consume channel="D2G" tokens="3"/>
+      <profile execution_time="1" weight="2"/>
+      <profile execution_time="1.5" weight="8"/>
+    </scenario>
+  </kernel_properties>
+  
+  <channel_properties channel="A2F" buffer_size="10"/>
+  <channel_properties channel="A2C" buffer_size="10"/>
+  <channel_properties channel="B2C" buffer_size="10"/>
+  <channel_properties channel="D2G" buffer_size="10"/>
+  <channel_properties channel="E2C" number_of_initial_tokens="1"/>
+
+</properties>
+
+</sadf>
+</sdf3>

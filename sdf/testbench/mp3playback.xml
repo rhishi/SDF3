@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf3 type="sdf" version="1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.es.ele.tue.nl/sdf3/xsd/sdf3-sdf.xsd">
+    <applicationGraph name='mp3playback'>
+        <sdf name='mp3playback' type='MP3playback'>
+            <actor name='mp3' type='a'>
+                <port type='out' name='p1' rate='1152'/>
+                <port type='in'  name='p2' rate='1'/>
+                <port type='out' name='p3' rate='1'/>
+            </actor>
+            <actor name='src' type='a'>
+                <port type='in'  name='p0' rate='480'/>
+                <port type='out' name='p3' rate='441'/>
+                <port type='in'  name='p4' rate='1'/>
+                <port type='out' name='p5' rate='1'/>
+            </actor>
+            <actor name='app' type='a'>
+                <port type='in'  name='p0' rate='1'/>
+                <port type='in'  name='p2' rate='1'/>
+                <port type='out' name='p3' rate='1'/>
+                <port type='in'  name='p4' rate='1'/>
+                <port type='out' name='p5' rate='1'/>
+            </actor>
+            <actor name='dac' type='a'>
+                <port type='in'  name='p0' rate='1'/>
+                <port type='out' name='p1' rate='1'/>
+                <port type='in'  name='p2' rate='1'/>
+                <port type='out' name='p3' rate='1'/>
+            </actor>
+
+            <channel name='mp3s' srcActor='mp3' srcPort='p3' dstActor='mp3' dstPort='p2' initialTokens='1'/>
+            <channel name='srcs' srcActor='src' srcPort='p5' dstActor='src' dstPort='p4' initialTokens='1'/>
+            <channel name='apps' srcActor='app' srcPort='p5' dstActor='app' dstPort='p4' initialTokens='1'/>
+            <channel name='dacs' srcActor='dac' srcPort='p3' dstActor='dac' dstPort='p2' initialTokens='1'/>
+
+            <channel name='ch0' srcActor='mp3' srcPort='p1' dstActor='src' dstPort='p0'/>
+            <channel name='ch1' srcActor='src' srcPort='p3' dstActor='app' dstPort='p0'/>
+            <channel name='ch2' srcActor='app' srcPort='p3' dstActor='dac' dstPort='p0'/>
+            <channel name='ch3' srcActor='dac' srcPort='p1' dstActor='app' dstPort='p2' initialTokens='2'/>
+        </sdf>
+        <sdfProperties>
+            <actorProperties actor='mp3'>
+                <processor type='proc_0' default='true'>
+                    <executionTime time='7510'/>
+                </processor>
+            </actorProperties>
+            <actorProperties actor='src'>
+                <processor type='proc_0' default='true'>
+                    <executionTime time='10000'/>
+                </processor>                  
+            </actorProperties>
+            <actorProperties actor='app'>
+                <processor type='proc_0' default='true'>
+                    <executionTime time='22'/>
+                </processor>             
+            </actorProperties>
+            <actorProperties actor='dac'>
+                <processor type='proc_0' default='true'>
+                    <executionTime time='22'/>
+                </processor>
+            </actorProperties>
+        </sdfProperties>
+    </applicationGraph>
+</sdf3>
